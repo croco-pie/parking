@@ -2,6 +2,7 @@ plugins {
     id "java"
     id "org.springframework.boot" version "3.0.5"
     id "io.spring.dependency-management" version "1.1.0"
+    id "org.liquibase.gradle" version "2.1.1"
 }
 
 group = "com.crocopie"
@@ -18,24 +19,31 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    set("hibernateTypesVersion", "2.21.0")
+}
+
 dependencies {
     /*
      * Spring
      */
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
 
     /*
-     * Annotation
-     */
+    * Annotation
+    */
     compileOnly "org.projectlombok:lombok"
     annotationProcessor "org.projectlombok:lombok"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
     /*
      * DB
      */
 	runtimeOnly "org.postgresql:postgresql"
 	implementation "org.liquibase:liquibase-core"
+    implementation "com.vladmihalcea:hibernate-types-60:$hibernateTypesVersion"
 	
     /*
      * Test
